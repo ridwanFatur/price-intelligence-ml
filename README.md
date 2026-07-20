@@ -1,50 +1,47 @@
 # Product Price Prediction using Machine Learning
 
-End-to-end machine learning pipeline for predicting product prices from an e-commerce marketplace dataset. This project covers exploratory data analysis (EDA), data cleaning, feature engineering, baseline regression models, categorical feature benchmarking, and dimensionality reduction experiments.
+An end-to-end machine learning project for predicting e-commerce product prices from historical marketplace data. This repository covers the complete workflow from exploratory data analysis (EDA), data cleaning, feature engineering, baseline regression modeling, and categorical feature benchmarking using gradient boosting algorithms.
 
 ---
 
-## Project Overview
+## Overview
 
-Accurate product price estimation is important for price monitoring, recommendation systems, and market intelligence. This project investigates historical product pricing data collected from an e-commerce platform and develops machine learning models to predict product prices.
+Product price prediction plays an important role in price monitoring, recommendation systems, and market intelligence. This project analyzes historical product information collected from an e-commerce platform and develops machine learning models to accurately estimate product prices.
 
-The project includes:
+The project focuses on:
 
-- Comprehensive Exploratory Data Analysis (EDA)
-- Data quality assessment
-- Feature engineering
-- Data preprocessing
-- Baseline machine learning models
-- Categorical feature benchmarking
-- Dimensionality reduction experiments
-
-The complete workflow is implemented using Jupyter Notebooks.
+- Exploratory Data Analysis (EDA)
+- Data Quality Assessment
+- Data Cleaning
+- Feature Engineering
+- Baseline Machine Learning Models
+- Categorical Feature Benchmarking
 
 ---
 
 ## Dataset
 
-The dataset contains:
+The dataset consists of:
 
-- **306,226 records**
+- **306,226 observations**
 - **26 features**
-- Observation period:
-  - **January 1, 2025**
-  - **March 22, 2025**
+- **81 calendar days** (January 1 – March 22, 2025)
+- **59 available observation days**
+- **22 missing collection dates**
 
-The features include:
+The available features include:
 
 - Product information
 - Shop information
 - Historical pricing
 - Promotions
-- Inventory
 - Customer ratings
-- Timestamps
+- Inventory information
+- Collection timestamp
 
 ---
 
-## Project Structure
+# Repository Structure
 
 ```
 .
@@ -63,13 +60,14 @@ The features include:
 ├── 13. Data Preprocessing & Feature Engineering.ipynb
 ├── 14. Baseline Regression Models for Price Prediction.ipynb
 ├── 15. Categorical Feature Benchmarking.ipynb
-├── 16. Dimensionality Reduction for Price Prediction.ipynb
 └── README.md
 ```
 
 ---
 
-## Exploratory Data Analysis
+# Exploratory Data Analysis
+
+The exploratory analysis is divided into eleven notebooks covering different aspects of the dataset.
 
 ### 1. Data Overview
 
@@ -82,7 +80,7 @@ The features include:
 
 - Daily observation counts
 - Missing collection dates
-- Temporal coverage
+- Temporal coverage analysis
 
 ### 3. Price Distribution
 
@@ -93,102 +91,106 @@ The features include:
 ### 4. Product Attribute Relationships
 
 - Correlation analysis
-- Numerical feature relationships
+- Price-related feature relationships
 - Customer engagement analysis
 
-### 5. Promotion Analysis
+### 5. Promotion & Discount Integrity
 
 - Promotion consistency
 - Discount validation
-- Promotional anomalies
+- Promotional anomaly detection
 
-### 6. Identifier Relationships
+### 6. Product & Identifier Relationships
 
-- Cardinality analysis
+- Identifier cardinality
 - One-to-many relationships
 - Many-to-many relationships
 
-### 7. Shop Analysis
+### 7. Shop Status & Verification
 
 - Official shop distribution
 - Verification status changes
-- Temporal verification trends
+- Temporal verification analysis
 
 ### 8. Product Price Stability
 
 - Stable vs dynamic pricing
 - Promotion effects
-- Feature consistency
+- Product consistency analysis
 
 ### 9. Price Range Validation
 
-- Historical minimum/maximum validation
+- Historical minimum and maximum validation
 - Boundary violations
 - Pricing anomalies
 
 ### 10. Item Price Consistency
 
 - Item-level price variation
-- IQR analysis
-- Outlier detection
+- Statistical analysis
+- IQR-based anomaly detection
 
 ### 11. Model-Level Price Variation
 
 - Price variation within product models
-- Attribute consistency
-- Category changes
+- Feature consistency
+- Category consistency analysis
 
 ---
 
-## Data Cleaning
+# Data Cleaning
 
-Cleaning steps include:
+The data cleaning pipeline performs several quality assurance steps before model training.
 
-- Remove duplicate records
-- Handle missing values
-- Remove constant features
-- Validate promotions
-- Validate discounts
-- Remove invalid price records
-- Remove item-level outliers
-- Standardize categorical values
+Cleaning includes:
+
+- Removing duplicate records
+- Handling missing values
+- Removing constant features
+- Standardizing categorical values
+- Validating promotion information
+- Validating discount calculations
+- Removing invalid price observations
+- Removing item-specific outliers
 
 After cleaning:
 
-| Stage | Records |
-|--------|---------|
+| Dataset | Records |
+|----------|---------|
 | Original | 303,982 |
-| Final | 281,147 |
+| Cleaned | 281,147 |
 
 ---
 
-## Feature Engineering
+# Feature Engineering
 
-The preprocessing pipeline includes:
+The preprocessing pipeline prepares the cleaned dataset for machine learning.
 
 ### Temporal Features
 
-- Day index
+- Sequential day index
 - Weekend indicator
 - Cyclical day encoding
 
-### Categorical Encoding
+### Categorical Features
 
 - Ordinal Encoding
 
-### Numerical Processing
+### Numerical Features
 
 - Min-Max Scaling
 
 ### Target Transformation
 
-- Log1p transformation
+- Log1p transformation of product price
 
 ---
 
-## Machine Learning Models
+# Baseline Regression Models
 
-Baseline models include:
+Several regression algorithms are benchmarked to establish baseline performance.
+
+Models include:
 
 - Linear Regression
 - Ridge Regression
@@ -201,59 +203,89 @@ Baseline models include:
 
 Evaluation metrics:
 
-- MAE
-- RMSE
-- MAPE
+- Mean Absolute Error (MAE)
+- Root Mean Squared Error (RMSE)
+- Mean Absolute Percentage Error (MAPE)
 - R² Score
 - Training Time
 
+The baseline experiments demonstrate that tree-based ensemble models significantly outperform traditional linear regression models.
+
 ---
 
-## Categorical Feature Benchmark
+# Categorical Feature Benchmarking
 
-Boosting algorithms:
+This experiment evaluates the predictive contribution of different categorical features while keeping all numerical features unchanged.
+
+The evaluated categorical variables are:
+
+- itemId
+- modelId
+- cat_id
+- brand
+- promotionId
+
+Each experiment trains the model using **only one categorical feature at a time** together with the remaining numerical features.
+
+Three gradient boosting frameworks are evaluated:
 
 - XGBoost
 - LightGBM
 - CatBoost
 
-Each categorical feature is evaluated independently.
+## XGBoost Results
 
-Main finding:
-
-> **modelId consistently provides the strongest predictive power among all categorical variables.**
-
----
-
-## Dimensionality Reduction
-
-Two dimensionality reduction techniques are evaluated:
-
-### PCA
-
-- 13 components
-- 96.53% explained variance
-
-### Truncated SVD
-
-- 14 components
-- 99.10% explained variance
+| Feature | MAE | RMSE | MAPE | R² |
+|---------|----:|----:|----:|----:|
+| **modelId** | **1.92** | **21.05** | **0.41%** | **0.9995** |
+| itemId | 25.98 | 99.77 | 7.72% | 0.9885 |
+| cat_id | 28.91 |118.31 |7.82%|0.9838|
+| brand |28.69|126.11|7.84%|0.9816|
+| promotionId |31.26|146.71|7.93%|0.9752|
 
 ---
 
-## Key Findings
+## LightGBM Results
 
-- Historical price features are the strongest predictors.
-- Product-level identifiers (`modelId`) outperform broader categorical features.
-- Log transformation significantly improves target distribution.
-- Most products exhibit stable pricing.
-- Promotional metadata contains several inconsistencies requiring cleaning.
-- Tree-based models substantially outperform linear regression.
-- Truncated SVD slightly outperforms PCA while preserving almost all variance.
+| Feature | MAE | RMSE | MAPE | R² |
+|---------|----:|----:|----:|----:|
+| **modelId** | **7.04** | **53.52** | **1.30%** | **0.9967** |
+| itemId |26.49|102.22|7.56%|0.9879|
+| brand |27.40|101.03|8.00%|0.9882|
+| cat_id |27.68|100.87|8.02%|0.9883|
+| promotionId |27.80|100.67|8.11%|0.9883|
 
 ---
 
-## Technologies
+## CatBoost Results
+
+| Feature | MAE | RMSE | MAPE | R² |
+|---------|----:|----:|----:|----:|
+| **modelId** | **25.83** | **91.94** | **6.65%** | **0.9902** |
+| promotionId |30.49|108.21|8.47%|0.9865|
+| itemId |30.55|108.18|8.47%|0.9865|
+| brand |30.60|107.76|8.51%|0.9866|
+| cat_id |30.62|108.32|8.46%|0.9865|
+
+---
+
+# Key Findings
+
+- Historical price features (`item_price_min`, `item_price_max`, and `priceBeforeDiscount`) are the strongest numerical predictors of product price.
+- Applying a **log transformation** to price significantly reduces skewness and improves regression performance.
+- Most products maintain stable prices throughout the observation period, while price changes are primarily associated with promotions rather than changes in product attributes.
+- `modelId` consistently provides the highest predictive power among all evaluated categorical features across XGBoost, LightGBM, and CatBoost.
+- XGBoost achieves the best overall performance when using `modelId`, reaching:
+  - **MAE:** 1.92
+  - **RMSE:** 21.05
+  - **MAPE:** 0.41%
+  - **R²:** 0.9995
+
+These results indicate that product-level identifiers contain substantially more pricing information than broader categorical attributes such as brand, category, or promotion.
+
+---
+
+# Technology Stack
 
 - Python
 - Pandas
@@ -267,38 +299,45 @@ Two dimensionality reduction techniques are evaluated:
 
 ---
 
-## Repository Workflow
+# Workflow
 
 ```
-EDA
-   │
-   ▼
+Raw Dataset
+      │
+      ▼
+Exploratory Data Analysis
+      │
+      ▼
 Data Cleaning
-   │
-   ▼
+      │
+      ▼
 Feature Engineering
-   │
-   ▼
-Baseline Models
-   │
-   ▼
-Categorical Feature Benchmark
+      │
+      ▼
+Baseline Regression Models
+      │
+      ▼
+Categorical Feature Benchmarking
+      │
+      ▼
+Best Model Selection
 ```
 
 ---
 
-## Future Work
+# Future Improvements
 
-- Hyperparameter optimization
+Potential future work includes:
+
+- Hyperparameter optimization with Optuna
 - Time-aware cross-validation
 - Ensemble learning
 - Feature selection
 - SHAP explainability
-- Deep learning models
-- Time-series aware price prediction
+- Automated model deployment
 
 ---
 
-## License
+# License
 
-This project is intended for educational and research purposes.
+This repository is intended for educational and research purposes.
